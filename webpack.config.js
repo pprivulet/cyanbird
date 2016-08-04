@@ -1,32 +1,42 @@
 var path = require('path');
-var node_modules = path.resolve(__dirname, 'node_modules');
-var pathToReactDOM = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
-
-var pathToReact = path.resolve(node_modules, 'react/dist/react.min.js');
-
-
+const webpack = require('webpack')
 var config = {
-    entry: ['webpack/hot/dev-server', path.resolve(__dirname, 'app/main.js')],
-    resolve: {
-        alias: {
-          'react': pathToReact,
-          'react-dom': pathToReactDOM
-        }
-    },
+    
+    entry: {
+        app: (process.env.NODE_ENV === 'prod' ? './client/index.js': [
+            'webpack-dev-server/client?http://127.0.0.1:3001',
+            'webpack/hot/dev-server',
+            './client/index.js']
+        )
+    },    
     output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js'
+        path: path.join(__dirname, 'assets'),
+        filename: '[name].js',
+        publicPath: process.env.NODE_ENV === 'prod' ? '/' : 'http://127.0.0.1:3001/'
     },
     module: {
         loaders: [{
             test: /\.jsx?$/, 
             loader: 'babel',
-            query:{presets:['react', 'es2015']} 
+            query:{presets:['react', 'es2015'],compact: false} 
         }, {
             test: /\.less$/,
             loader: 'style!css!less'
         }],
-        noParse: [pathToReact, pathToReactDOM]
+        noParse: []
+    },
+    devServer: {
+        hot: true,
+        port: 3001,
+        historyApiFallback: true,
+        publicPath: 'http://127.0.0.1:3001/'
+    },
+    plugins: (process.env.NODE_ENV === 'prod'
+        ? []
+        : [new webpack.HotModuleReplacementPlugin(), new webpack.NoErrorsPlugin()]
+    ),
+    resolve: {
+        modulesDirectories: ['node_modules', 'client']
     }
 };
 

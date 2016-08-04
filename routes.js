@@ -1,6 +1,5 @@
 var Router = require('koa-router');
-//var jwt = require('koa-jwt');
-//var config = require('./config');
+
 
 function *foo(next){
    this.body = {
