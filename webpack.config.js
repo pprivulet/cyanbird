@@ -1,7 +1,6 @@
 var path = require('path');
 const webpack = require('webpack')
-var config = {
-    
+var config = {    
     entry: {
         app: (process.env.NODE_ENV === 'prod' ? './client/index.js': [
             'webpack-dev-server/client?http://127.0.0.1:3001',
@@ -22,6 +21,9 @@ var config = {
         }, {
             test: /\.less$/,
             loader: 'style!css!less'
+        }, {
+            test: /\.(png|jpg)$/,
+            loader: 'url-loader?limit=8192'
         }],
         noParse: []
     },

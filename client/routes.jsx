@@ -1,19 +1,23 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { Router, Route, Link, browserHistory } from 'react-router'
-var App = require('./pages/App.jsx').default
-var About = require('./pages/about.jsx').default
+import { render } from 'react-dom'
+import { browserHistory, Router, Route, Link } from 'react-router'
+import Header from './components/header.jsx'
 
+const App = React.createClass({
+  render() {
+    return (
+      <div>
+        <Header/>        
+      </div>
+    )
+  }
+})
 
-const router = (
-    <Router history={browserHistory}>
-        <Route path="/" component={App}>
-            <Route path="about" component={About} />
-        </Route>
-    </Router>
-);
-
-ReactDOM.render(
-    router,
-    document.getElementById('app')
-);
+render((
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      
+      
+    </Route>
+  </Router>
+), document.getElementById('app'))

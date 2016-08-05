@@ -4,6 +4,7 @@ const path = require('path')
 const config = require('./config')
 const app = require('koa')()
 var routes = require('./routes.js')
+var serve = require('koa-static')
 //const jwt = require('koa-jwt')({ secret: config.jwtSecret }).unless({
 //  path: [
 //    /^\/api\/auth/,
@@ -25,6 +26,8 @@ app
   })
 
 routes(app);
+
+app.use(serve(path.join(__dirname, 'public')));
 
 module.exports = app
 
