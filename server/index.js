@@ -3,7 +3,7 @@
 const path = require('path')
 const config = require('./config')
 const app = require('koa')()
-const Router = require('koa-router')
+var routes = require('./routes.js')
 //const jwt = require('koa-jwt')({ secret: config.jwtSecret }).unless({
 //  path: [
 //    /^\/api\/auth/,
@@ -13,7 +13,6 @@ const Router = require('koa-router')
 
 global.debug = process.env.NODE_ENV === 'dev'
 
-//require('./models/init')
 
 app
   .use(handleError)
@@ -25,18 +24,7 @@ app
     console.log('listening on', config.port)
   })
 
-
-
-function *foo(next){
-   this.body = {
-      status: 200,
-      hi: "cyanbird"
-  };
-}
-
-var router = new Router();
-router.get('/api/foo', foo);
-app.use(router.middleware());
+routes(app);
 
 module.exports = app
 
